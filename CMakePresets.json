@@ -1,0 +1,202 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "include": [
+        "CMakePresetsBase.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "nanod",
+            "inherits": [
+                "basic_paths",
+                "vcpkg",
+                "ninja-export-commands"
+            ],
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "arm64-linux",
+                "CMAKE_CUDA_ARCHITECTURES": "52",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "WITH_ULTRA_API": "OFF",
+                "WITH_ULTRA_CUDA": "ON"
+            }
+        },
+        {
+            "name": "nanor",
+            "inherits": [
+                "basic_paths",
+                "vcpkg",
+                "ninja-export-commands"
+            ],
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "arm64-linux",
+                "CMAKE_CUDA_ARCHITECTURES": "52",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "WITH_ULTRA_API": "OFF",
+                "WITH_ULTRA_CUDA": "ON"
+            }
+        },
+        {
+            "name": "ninja-ld-gcc",
+            "inherits": [
+                "ninja-linux-x64-gcc"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "WITH_ULTRA_API": "ON"
+            }
+        },
+        {
+            "name": "ninja-lr-gcc",
+            "inherits": [
+                "ninja-linux-x64-gcc"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "WITH_ULTRA_API": "ON"
+            }
+        },
+        {
+            "name": "clangd",
+            "inherits": [
+                "ninja-linux-x64-clang"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "WITH_ULTRA_API": "ON"
+            }
+        },
+        {
+            "name": "clangr",
+            "inherits": [
+                "ninja-linux-x64-clang"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "WITH_ULTRA_API": "ON"
+            }
+        },
+        {
+            "name": "vs2022",
+            "displayName": "vs2022",
+            "description": "",
+            "inherits": [
+                "basic_paths",
+                "vcpkg",
+                "msvc143-x64"
+            ],
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "WITH_ULTRA_API": "ON",
+                "WITH_ULTRA_CUDA": "ON"
+            }
+        },
+        {
+            "name": "vs2022-cuda",
+            "displayName": "vs2022-cuda",
+            "description": "",
+            "inherits": [
+                "basic_paths",
+                "vcpkg",
+                "msvc143-x64"
+            ],
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "WITH_ULTRA_API": "OFF",
+                "WITH_ULTRA_CUDA": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "nanod",
+            "configurePreset": "nanod"
+        },
+        {
+            "name": "nanor",
+            "configurePreset": "nanor"
+        },
+        {
+            "name": "vs2022r",
+            "configurePreset": "vs2022",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2022d",
+            "configurePreset": "vs2022",
+            "configuration": "Debug"
+        },
+        {
+            "name": "clangr",
+            "configurePreset": "clangr"
+        },
+        {
+            "name": "clangd",
+            "configurePreset": "clangd"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "vs2022r",
+            "configurePreset": "vs2022",
+            "configuration": "RelWithDebInfo",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        },
+        {
+            "name": "clangr",
+            "configurePreset": "clangr",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "vs2022r",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "vs2022"
+                },
+                {
+                    "type": "build",
+                    "name": "vs2022r"
+                },
+                {
+                    "type": "test",
+                    "name": "vs2022r"
+                }
+            ]
+        },
+        {
+            "name": "clangr",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clangr"
+                },
+                {
+                    "type": "build",
+                    "name": "clangr"
+                },
+                {
+                    "type": "test",
+                    "name": "clangr"
+                }
+            ]
+        }
+    ]
+}
