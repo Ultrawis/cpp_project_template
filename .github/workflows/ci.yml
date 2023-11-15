@@ -47,13 +47,6 @@ jobs:
         ninjaVersion: 1.11.1  
         useLocalCache: true         # <--= Use the local cache (default is 'false').
         useCloudCache: false        # <--= Ditch the cloud cache (default is 'true').
-    - name: get vcpkg
-      uses: lukka/run-vcpkg@v11.3
-      with:
-        vcpkgGitCommitId: '9f03078bdcbab3ad8c1e3927c40c3fb48e42501f'
-         # This is the default location of the directory containing vcpkg sources.
-         # Change it to the right location if needed.
-         # vcpkgDirectory: '${{ github.workspace }}/vcpkg'
     - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
       # uses: nschloe/action-cached-lfs-checkout@v1.2.2
       uses: actions/checkout@v4
@@ -68,6 +61,13 @@ jobs:
           ${{ runner.os }}-lfs-  
     - name: Git LFS Pull
       run: git lfs pull
+    - name: get vcpkg
+      uses: lukka/run-vcpkg@v11.3
+      with:
+        vcpkgGitCommitId: '9f03078bdcbab3ad8c1e3927c40c3fb48e42501f'
+         # This is the default location of the directory containing vcpkg sources.
+         # Change it to the right location if needed.
+         # vcpkgDirectory: '${{ github.workspace }}/vcpkg'
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
       uses: lukka/run-cmake@v10.7
       with:
