@@ -3,7 +3,7 @@
 set(CMAKE_C_COMPILER clang-16)
 set(CMAKE_CXX_COMPILER clang++-16)
 
-string(APPEND CMAKE_CXX_COMPILER "-stdlib=libc++")
+string(APPEND CMAKE_CXX_FLAGS_INIT "-stdlib=libc++")
 
 set(CMAKE_SYSTEM_PROCESSOR x86_64 CACHE STRING "")
 
