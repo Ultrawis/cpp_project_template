@@ -118,10 +118,6 @@ endif()
 # brute force added libraries that don't behave well with vcpkg
 
 # vcpkg based libraries
-find_package(function2 CONFIG REQUIRED)
-find_package(magic_enum CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(PalSigslot CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 
 if(WITH_ULTRA_API)
