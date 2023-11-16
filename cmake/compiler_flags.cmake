@@ -36,7 +36,8 @@ set(ULTRA_ALL_FLAGS
 
 set(ULTRA_ALL_FLAGS_23
     ${ULTRA_ALL_FLAGS}
-    $<$<CXX_COMPILER_ID:Clang>:-fexperimental-library -std=c++2b> # https://discourse.llvm.org/t/linux-what-is-the-status-of-libc-in-llvm-15-apt-packages-ranges-format/65348/4
+
+    # $<$<CXX_COMPILER_ID:Clang>:-fexperimental-library -std=c++2b> # https://discourse.llvm.org/t/linux-what-is-the-status-of-libc-in-llvm-15-apt-packages-ranges-format/65348/4
 )
 
 add_library(ultra_strict_compiler_flags INTERFACE)
