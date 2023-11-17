@@ -10,9 +10,14 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
+    - name: clang info before
+      run: |
+        whereis clang++
+        clang++ --version
     - name: Print Working Directory and PATH before
       run: |
         echo "Working Directory:"
+        pwd
         ls -la
         echo "PATH:"
         echo $PATH
@@ -23,6 +28,11 @@ jobs:
     - name: Print Working Directory and PATH after
       run: |
         echo "Working Directory:"
+        pwd
         ls -la
         echo "PATH:"
         echo $PATH
+    - name: clang info after
+      run: |
+        whereis clang++
+        clang++ --version
