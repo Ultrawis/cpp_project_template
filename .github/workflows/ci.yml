@@ -20,6 +20,8 @@ jobs:
         ls -la
         echo "PATH:"
         echo $PATH
+    - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
+      uses: actions/checkout@v4
     - name: Install LLVM and Clang
       uses: KyleMayes/install-llvm-action@v1.9.0
       with:
@@ -74,10 +76,7 @@ jobs:
         ls -la
         echo "PATH:"
         echo $PATH
-    - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
-      uses: actions/checkout@v3
-      with:
-        clean: false
+
     - name: clang info 3 
       run: |
         whereis clang++
