@@ -76,6 +76,8 @@ jobs:
         echo $PATH
     - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
       uses: actions/checkout@v3
+      with:
+        clean: false
     - name: clang info 3 
       run: |
         whereis clang++
