@@ -1,4 +1,4 @@
-name: ci
+name: clang
 run-name: Continuous Integration ${{ github.actor }}
 on:
   workflow_dispatch: # allow manual runs 
