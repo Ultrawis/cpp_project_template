@@ -76,8 +76,26 @@ jobs:
         echo $PATH
     - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
       uses: actions/checkout@v4
+    - name: clang info 3 
+      run: |
+        whereis clang++
+        clang++ --version
+        echo "Working Directory:"
+        pwd
+        ls -la
+        echo "PATH:"
+        echo $PATH
     - name: Create LFS file list
       run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+    - name: clang info 4 
+      run: |
+        whereis clang++
+        clang++ --version
+        echo "Working Directory:"
+        pwd
+        ls -la
+        echo "PATH:"
+        echo $PATH
     - name: LFS Cache
       uses: actions/cache@v3
       with:
@@ -85,7 +103,7 @@ jobs:
         key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
         restore-keys: |
           ${{ runner.os }}-lfs-  
-    - name: clang info 3 
+    - name: clang info 5 
       run: |
         whereis clang++
         clang++ --version
@@ -96,7 +114,7 @@ jobs:
         echo $PATH
     - name: Git LFS Pull
       run: git lfs pull
-    - name: clang info 4
+    - name: clang info 6
       run: |
         whereis clang++
         clang++ --version
