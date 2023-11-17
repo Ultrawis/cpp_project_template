@@ -14,6 +14,11 @@ jobs:
       run: |
         whereis clang++
         clang++ --version
+        echo "Working Directory:"
+        pwd
+        ls -la
+        echo "PATH:"
+        echo $PATH
     - name: Print Working Directory and PATH before
       run: |
         echo "Working Directory:"
