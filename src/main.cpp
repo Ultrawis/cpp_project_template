@@ -1,4 +1,6 @@
 
+#include <nlohmann/json.hpp>
+#include <ranges>
 #include <spdlog/spdlog.h>
 
 int main()
