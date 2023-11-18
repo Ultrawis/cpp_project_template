@@ -191,10 +191,6 @@
                 {
                     "type": "build",
                     "name": "clangr"
-                },
-                {
-                    "type": "test",
-                    "name": "clangr"
                 }
             ]
         }
