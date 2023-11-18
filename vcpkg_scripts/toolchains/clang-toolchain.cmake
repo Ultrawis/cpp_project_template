@@ -10,8 +10,8 @@ macro(append_flag_if_not_found var flag)
     endif()
 endmacro()
 
-set(CMAKE_C_COMPILER clang)
-set(CMAKE_CXX_COMPILER clang++)
+set(CMAKE_C_COMPILER clang-17)
+set(CMAKE_CXX_COMPILER clang++17)
 
 # append_flag_if_not_found(CMAKE_CXX_FLAGS_INIT "-stdlib=libc++")
 append_flag_if_not_found(CMAKE_CXX_FLAGS_INIT "-fPIC")
