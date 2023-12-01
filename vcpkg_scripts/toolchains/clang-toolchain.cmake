@@ -2,18 +2,15 @@ macro(append_flag_if_not_found var flag)
     string(FIND "${${var}}" "${flag}" position)
 
     if(position EQUAL -1)
-        # The string was not found; append it
-        message(STATUS "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ append ${flag} to ${var}")
-        message(STATUS "flags before: ${${var}}")
         string(APPEND ${var} " ${flag} ")
-        message(STATUS "flags after: ${${var}}")
     endif()
 endmacro()
 
-set(CMAKE_C_COMPILER clang-17)
-set(CMAKE_CXX_COMPILER clang++17)
+set(CMAKE_C_COMPILER clang)
+set(CMAKE_CXX_COMPILER clang++)
 
-# append_flag_if_not_found(CMAKE_CXX_FLAGS_INIT "-stdlib=libc++")
+# append_flag_if_not_found(CMAKE_CXX_FLAGS_INIT "-stdlib=libc++") #using libc++ instead of libstdc++ causes compilation error in boost-system
+append_flag_if_not_found(CMAKE_C_FLAGS_INIT "-fPIC")
 append_flag_if_not_found(CMAKE_CXX_FLAGS_INIT "-fPIC")
 
 set(CMAKE_SYSTEM_PROCESSOR x86_64 CACHE STRING "")

@@ -5,103 +5,18 @@ on:
 jobs:
   linux-clang:
     runs-on: ubuntu-22.04
+    # runs-on: ubuntu-20.04
     # runs-on: ubuntu-latest
     steps:
-    - name: print context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: clang info 1 
-      run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
+    # - name: print context
+    #   env:
+    #     GITHUB_CONTEXT: ${{ toJson(github) }}
+    #   run: echo "$GITHUB_CONTEXT"
     - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
+    # uses: nschloe/action-cached-lfs-checkout@v1.2.2
       uses: actions/checkout@v4
-    # - name: Install LLVM and Clang
-    #   uses: KyleMayes/install-llvm-action@v1.9.0
-    #   with:
-    #     version: "16.0.4"
-    - name: Install newer Clang
-      run: |
-       wget https://apt.llvm.org/llvm.sh
-       chmod +x ./llvm.sh
-       sudo ./llvm.sh 17
-    - name: clang info 2
-      run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
-    #- uses: actions/github-script@v6
-    #  with:
-    #    script: |
-    #      core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-    #      core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-    #- name: Install dependencies required by ffmpeg and glfw
-    #  run: |
-    #    sudo apt-get update
-    #- name: Install dependencies required by ffmpeg and glfw + ccache
-    #  uses: awalsh128/cache-apt-pkgs-action@latest
-    #  with: 
-    #    packages: | 
-    #            pkg-config 
-    #            nasm 
-    #            libxinerama-dev 
-    #            libxcursor-dev
-    #            xorg-dev 
-    #            libglu1-mesa-dev
-    #            ccache
-    #    version: 1.0
-    #- name: Setup ccache
-    #  uses: Chocobo1/setup-ccache-action@v1.4.0
-    #  with:
-    #    install_ccache: false
-    #    prepend_symlinks_to_path: true
-    - name: get cmake and ninja
-      uses: lukka/get-cmake@v3.27.7
-      with:
-        cmakeVersion: 3.27.1  
-        ninjaVersion: 1.11.1  
-        useLocalCache: true         # <--= Use the local cache (default is 'false').
-        useCloudCache: false        # <--= Ditch the cloud cache (default is 'true').
-    - name: clang info 3 
-      run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
-
-    - name: clang info 3 
-      run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
     - name: Create LFS file list
       run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
-    - name: clang info 4 
-      run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
     - name: LFS Cache
       uses: actions/cache@v3
       with:
@@ -109,33 +24,63 @@ jobs:
         key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
         restore-keys: |
           ${{ runner.os }}-lfs-  
-    - name: clang info 5 
-      run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
     - name: Git LFS Pull
       run: git lfs pull
-    - name: clang info 6
+      # with:
+      #     lfs: 'true' # when cloning / checkout, do so with git lfs tracked files?
+    # - name: Checkout LFS objects
+      # run: git lfs checkout # as per https://stackoverflow.com/questions/61463578/github-actions-actions-checkoutv2-lfs-true-flag-not-converting-pointers-to-act
+ # workaround for broken clang on ubuntu runner until https://github.com/actions/runner-images/issues/8659 get fixed
+    - uses: mjp41/workaround8649@7929373c0fe5caf844d8115adccef39e3b5362e7
+      with:
+        os: ubuntu-22.04
+    - name: Install LLVM and Clang
+      uses: KyleMayes/install-llvm-action@v1.9.0
+      with:
+        version: "16.0"
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+    - name: Install dependencies required by ffmpeg and glfw
       run: |
-        whereis clang++
-        clang++ --version
-        echo "Working Directory:"
-        pwd
-        ls -la
-        echo "PATH:"
-        echo $PATH
+        sudo apt-get update
+    - name: Install dependencies required by ffmpeg and glfw + ccache
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with: 
+        packages: | 
+                pkg-config 
+                nasm 
+                libxinerama-dev 
+                libxcursor-dev
+                xorg-dev 
+                libglu1-mesa-dev
+                ccache
+        version: 1.0
+    - name: Setup ccache
+      uses: Chocobo1/setup-ccache-action@v1.4.0
+      with:
+        install_ccache: false
+        prepend_symlinks_to_path: true
+    - name: get cmake and ninja
+      uses: lukka/get-cmake@v3.27.7
+      with:
+        cmakeVersion: 3.27.1  
+        ninjaVersion: 1.11.1  
+        useLocalCache: true         # <--= Use the local cache (default is 'false').
+        useCloudCache: false        # <--= Ditch the cloud cache (default is 'true').'
+    - name: extract clspv
+      run: |
+          unzip docker/clspv-linux-x64.zip -d clspv
+          echo "$PWD/clspv" >> $GITHUB_PATH
     - name: get vcpkg
       uses: lukka/run-vcpkg@v11.3
       with:
         vcpkgGitCommitId: '9f03078bdcbab3ad8c1e3927c40c3fb48e42501f'
          # This is the default location of the directory containing vcpkg sources.
          # Change it to the right location if needed.
-         # vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+         # vcpkgDirectory: '${{ github.workspace }}/vcpkg
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
       uses: lukka/run-cmake@v10.7
       with:
