@@ -70,10 +70,10 @@ jobs:
         ninjaVersion: 1.11.1  
         useLocalCache: true         # <--= Use the local cache (default is 'false').
         useCloudCache: false        # <--= Ditch the cloud cache (default is 'true').'
-    - name: extract clspv
-      run: |
-          unzip docker/clspv-linux-x64.zip -d clspv
-          echo "$PWD/clspv" >> $GITHUB_PATH
+    # - name: extract clspv
+    #   run: |
+    #       unzip docker/clspv-linux-x64.zip -d clspv
+    #       echo "$PWD/clspv" >> $GITHUB_PATH
     - name: get vcpkg
       uses: lukka/run-vcpkg@v11.3
       with:
