@@ -4,7 +4,6 @@
     "builtin-baseline": "be7f163bf2985c965aa4757162ad20f799b88a21",
     "dependencies": [
         "boost-system",
-        "concurrencpp",
         "nlohmann-json",
         "spdlog"
     ],
