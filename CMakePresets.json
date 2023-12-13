@@ -125,6 +125,14 @@
             "configuration": "RelWithDebInfo"
         },
         {
+            "name": "vs2022r-deploy",
+            "configurePreset": "vs2022",
+            "configuration": "RelWithDebInfo",
+            "targets": [
+                "app"
+            ]
+        },
+        {
             "name": "vs2022d",
             "configurePreset": "vs2022",
             "configuration": "Debug"
@@ -178,6 +186,19 @@
                 {
                     "type": "test",
                     "name": "vs2022r"
+                }
+            ]
+        },
+        {
+            "name": "vs2022r-deploy",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "vs2022"
+                },
+                {
+                    "type": "build",
+                    "name": "vs2022r-deploy"
                 }
             ]
         },

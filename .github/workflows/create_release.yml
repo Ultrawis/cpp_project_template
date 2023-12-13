@@ -1,0 +1,43 @@
+name: release
+run-name: Continuous Integration ${{ github.actor }}
+on:
+  workflow_dispatch: # allow manual runs 
+jobs:
+  create-windows-release:
+    runs-on: windows-latest
+    steps:
+    - name: checkout code with LFS caching https://github.com/actions/checkout/issues/165
+    # uses: nschloe/action-cached-lfs-checkout@v1.2.2
+      uses: actions/checkout@v4
+    - name: Create LFS file list
+      run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+    - name: LFS Cache
+      uses: actions/cache@v3
+      with:
+        path: .git/lfs/objects
+        key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+        restore-keys: |
+          ${{ runner.os }}-lfs-  
+    - name: Git LFS Pull
+      run: git lfs pull
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+    - name: get cmake and ninja
+      uses: lukka/get-cmake@v3.27.7
+      with:
+        cmakeVersion: 3.27.1  
+        ninjaVersion: 1.11.1  
+        useLocalCache: true         # <--= Use the local cache (default is 'false').
+        useCloudCache: false        # <--= Ditch the cloud cache (default is 'true').'
+    - name: get vcpkg
+      uses: lukka/run-vcpkg@v11.3
+      with:
+        vcpkgGitCommitId: '9f03078bdcbab3ad8c1e3927c40c3fb48e42501f'
+    - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
+      uses: lukka/run-cmake@v10.7
+      with:
+        workflowPreset: 'vs2022r-deploy'
+        
