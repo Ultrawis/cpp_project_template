@@ -47,7 +47,5 @@ jobs:
         files: ./build/vs2022-api/bin/RelWithDebInfo/app.exe
         name: Release ${{ github.run_number }}
         tag_name: ${{ github.run_number }}
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         
