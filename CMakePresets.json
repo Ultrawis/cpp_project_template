@@ -95,6 +95,21 @@
             }
         },
         {
+            "name": "vs2022-api",
+            "displayName": "vs2022-api",
+            "description": "",
+            "inherits": [
+                "basic_paths",
+                "vcpkg",
+                "msvc143-x64"
+            ],
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "WITH_ULTRA_API": "ON",
+                "WITH_ULTRA_CUDA": "OFF"
+            }
+        },
+        {
             "name": "vs2022-cuda",
             "displayName": "vs2022-cuda",
             "description": "",
@@ -125,8 +140,8 @@
             "configuration": "RelWithDebInfo"
         },
         {
-            "name": "vs2022r-deploy",
-            "configurePreset": "vs2022",
+            "name": "vs2022r-api",
+            "configurePreset": "vs2022-api",
             "configuration": "RelWithDebInfo",
             "targets": [
                 "app"
@@ -190,15 +205,15 @@
             ]
         },
         {
-            "name": "vs2022r-deploy",
+            "name": "vs2022r-api",
             "steps": [
                 {
                     "type": "configure",
-                    "name": "vs2022"
+                    "name": "vs2022-api"
                 },
                 {
                     "type": "build",
-                    "name": "vs2022r-deploy"
+                    "name": "vs2022r-api"
                 }
             ]
         },

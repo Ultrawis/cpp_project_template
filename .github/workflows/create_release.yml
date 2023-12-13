@@ -39,5 +39,5 @@ jobs:
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
       uses: lukka/run-cmake@v10.7
       with:
-        workflowPreset: 'vs2022r-deploy'
+        workflowPreset: 'vs2022r-api'
         
