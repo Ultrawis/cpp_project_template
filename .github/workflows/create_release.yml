@@ -1,7 +1,10 @@
 name: release
 run-name: Continuous Integration ${{ github.actor }}
 on:
-  workflow_dispatch: # allow manual runs 
+  push:
+    tags:
+      - "v*.*.*"
+  #workflow_dispatch: # allow manual runs 
 jobs:
   create-windows-release:
     runs-on: windows-latest
