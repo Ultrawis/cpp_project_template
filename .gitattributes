@@ -1,1 +1,5 @@
+# when creating releases, github uses git archive to create a tarball / zip
+# this file is used to tell git archive which files to ignore - in this case
+# everything.
+# git archive --output=./example_repo_archive.zip --format=zip HEAD
 * export-ignore
