@@ -40,4 +40,9 @@ jobs:
       uses: lukka/run-cmake@v10.7
       with:
         workflowPreset: 'vs2022r-api'
+    - name: create release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: app.exe
         
