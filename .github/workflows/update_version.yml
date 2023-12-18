@@ -1,4 +1,4 @@
-name: Update Version
+name: update version
 
 on:
   workflow_dispatch:
@@ -7,6 +7,10 @@ on:
         description: 'Version number'
         required: true
         default: '1.0.0'
+      notes:
+        description: 'Notes'
+        required: false
+        default: 'No notes'
 
 jobs:
   update-version:
@@ -15,7 +19,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
+    - name: Generate release notes
+      run: echo "${{ github.event.inputs.notes }}" > ./release_notes.txt
     - name: Update file with version number
       run: echo "set(ULTRA_VERSION ${{ github.event.inputs.version }})" > ./cmake/version_details.cmake
     - name: Commit changes
