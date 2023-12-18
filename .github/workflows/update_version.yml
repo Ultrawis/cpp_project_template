@@ -10,7 +10,7 @@ on:
       notes:
         description: 'Notes'
         required: false
-        default: 'No notes'
+        default: ''
 
 jobs:
   update-version:
