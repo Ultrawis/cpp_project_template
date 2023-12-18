@@ -1,0 +1,35 @@
+name: Update Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Update file with version number
+      run: echo "set(ULTRA_VERSION ${{ github.event.inputs.version }})" > ./cmake/version_details.cmake
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git --all
+        git commit -m "Update version to ${{ github.event.inputs.version }}"
+
+    - name: Tag commit
+      run: git tag ${{ github.event.inputs.version }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tags: true

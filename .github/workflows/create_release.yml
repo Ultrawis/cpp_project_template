@@ -1,10 +1,10 @@
 name: release
 run-name: Continuous Integration ${{ github.actor }}
 on:
-  push:
-    tags:
-      - "v*.*.*"
-  #workflow_dispatch: # allow manual runs 
+#   push:
+#     tags:
+#       - "v*.*.*"
+  workflow_dispatch: # allow manual runs 
 jobs:
   create-windows-release:
     runs-on: windows-latest
@@ -48,7 +48,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: ./build/vs2022-api/bin/RelWithDebInfo/app.exe
-        name: Release ${{ github.ref_name }}"
+        name: Release ${{ github.ref_name }}
         tag_name: ${{ github.ref_name }}
 
         
