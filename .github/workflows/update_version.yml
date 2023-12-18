@@ -22,7 +22,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git --all
+        git add --all
         git commit -m "Update version to ${{ github.event.inputs.version }}"
 
     - name: Tag commit
