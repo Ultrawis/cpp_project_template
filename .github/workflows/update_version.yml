@@ -4,10 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       version:
+        type: string
         description: 'Version number'
         required: true
         default: '1.0.0'
       notes:
+        type: string
         description: 'Notes'
         required: false
         default: ''
@@ -19,6 +21,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
     - name: Generate release notes
       run: echo "${{ github.event.inputs.notes }}" > ./release_notes.txt
     - name: Update file with version number
@@ -36,5 +40,5 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PAT_TOKEN }}
         tags: true
