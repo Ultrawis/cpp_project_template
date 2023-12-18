@@ -1,1 +1,1 @@
-set(ULTRA_VERSION 1.0.6)
+set(ULTRA_VERSION 1.0.7)
