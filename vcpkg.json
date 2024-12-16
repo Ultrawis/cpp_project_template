@@ -1,0 +1,9 @@
+{
+    "name": "cpp",
+    "version-string": "1.0.0",
+    "builtin-baseline": "3704806ffed769fc3260b2ef7fd39b8b65f638ea",
+    "dependencies": [
+        "catch2",
+        "spdlog"
+    ]
+}

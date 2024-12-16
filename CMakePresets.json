@@ -1,0 +1,86 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "include": [
+        "CMakePresetsBase.json"
+    ],
+    "configurePresets": [
+        {
+            "name": "vs2022",
+            "displayName": "vs2022",
+            "description": "",
+            "inherits": [
+                "basic_paths",
+                "vcpkg",
+                "msvc143-x64"
+            ],
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "vs2022r",
+            "configurePreset": "vs2022",
+            "jobs": 0,
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2022d",
+            "configurePreset": "vs2022",
+            "jobs": 0,
+            "configuration": "Debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "vs2022r",
+            "configurePreset": "vs2022",
+            "configuration": "RelWithDebInfo",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "vs2022d",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "vs2022"
+                },
+                {
+                    "type": "build",
+                    "name": "vs2022d"
+                }
+            ]
+        },
+        {
+            "name": "vs2022r",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "vs2022"
+                },
+                {
+                    "type": "build",
+                    "name": "vs2022r"
+                },
+                {
+                    "type": "test",
+                    "name": "vs2022r"
+                }
+            ]
+        }
+    ]
+}
